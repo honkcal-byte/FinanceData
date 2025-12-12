@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>文章数据展示</title>
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+    th {
+        background-color: #f5f5f5;
+    }
+    .btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 6px 10px;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .btn:hover {
+        background-color: #45a049;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>文章列表（最新 200 条）</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Source</th>
+        <th>URL</th>
+        <th>Title</th>
+        <th>Publish Date</th>
+        <th>Craw Date</th>
+        <th>操作</th>
+    </tr>
+
+    {% for item in articles %}
+    <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.source }}</td>
+        <td><a href="{{ item.url }}" target="_blank">打开链接</a></td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.publish_date }}</td>
+        <td>{{ item.craw_date }}</td>
+
+        <td>
+            <a href="/process/{{ item.id }}" class="btn">处理</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

@@ -11,7 +11,8 @@ class ArticleDB:
             db=database,
             charset="utf8mb4",
             cursorclass=DictCursor,
-            autocommit=True
+            autocommit=True,
+            connect_timeout=100
         )
 
     # ---------------------
