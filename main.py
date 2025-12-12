@@ -7,6 +7,7 @@ from requests.auth import HTTPBasicAuth
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 from openai import OpenAI
+from Dboperation import ArticleDB
 import openrouter
 
 
@@ -31,6 +32,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
+
+db=  ArticleDB("207.148.127.78","haawjkxnuy","QbeufDdc59","haawjkxnuy")
 
 
 # ----------------------------------------------------------------------
@@ -163,14 +166,23 @@ def publish_to_wordpress(title: str, html_content: str):
 # MAIN
 # ----------------------------------------------------------------------
 if __name__ == "__main__":
-    url = "https://www.cls.cn/detail/2226742"
+    targeturl = "https://www.cls.cn/detail/2226742"
 
-    html = fetch_article_html(url)
+    html = fetch_article_html(targeturl)
     title, content = parse_article(html)
 
     if title:
         print("Parse OK:", title)
         en_content = rewrite_to_english(title, content)
+
+        new_id = db.add_article(
+            source="Reuters",
+            url=targeturl,
+            title="title",
+            content="content"
+        )
+        print("Inserted to db successfully:", new_id)
+
         publish_to_wordpress(title, en_content)
     else:
         print("Parse failed")
